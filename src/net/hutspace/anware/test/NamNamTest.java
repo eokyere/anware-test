@@ -7,6 +7,7 @@ import net.hutspace.anware.core.NamNamGame;
 
 public class NamNamTest extends TestCase {
 	private Game game;
+	private static int[] COMPLETE_GAME = new int[] {0, 6, 3, 8, 2, 9, 4, 6, 0, 8};
 	
 	protected void setUp() throws Exception {
 		game = new NamNamGame();
@@ -72,17 +73,31 @@ public class NamNamTest extends TestCase {
 	
 	public void testCompleteGame() {
 		try {
-			game.move(0);
-			game.move(6);
-			game.move(3);
-			game.move(8);
-			game.move(2);
-			game.move(9);
-			game.move(4);
-			game.render();
-			game.move(6);
-			game.move(0);
-			game.move(8);
+			makeMoves(COMPLETE_GAME);
+			validatePits(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+			validateStores(new int[]{20, 28});
+		} catch (IllegalMove e) {
+			fail("All moves should be valid");
+		}
+	}
+
+	public void testUndoAll() {
+		try {
+			makeMoves(COMPLETE_GAME);
+			for (int i = 0; i < COMPLETE_GAME.length; ++i)
+				game.undo();
+			validatePits(new int[]{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4});
+			validateStores(new int[]{0, 0});
+		} catch (IllegalMove e) {
+			fail("All moves should be valid");
+		}
+	}
+	
+	public void testCompleteGameWithUndoRedo() {
+		try {
+			makeMoves(COMPLETE_GAME);
+			game.undo();
+			game.redo();
 			validatePits(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 			validateStores(new int[]{20, 28});
 		} catch (IllegalMove e) {
@@ -109,5 +124,10 @@ public class NamNamTest extends TestCase {
 	private void validateStores(int[] stores) {
 		for (int i = 0; i < stores.length; ++i)
 			assertEquals(stores[i], game.store(i));
+	}
+
+	private void makeMoves(int[] moves) throws IllegalMove {
+		for (int i = 0; i < moves.length; ++i)
+			game.move(moves[i]);
 	}
 }

@@ -5,3 +5,4 @@ tmp/
 bin/*.apk
 bin/*.dex
 bin/resource.ap_
+TEST-*
