@@ -7,7 +7,7 @@ import net.hutspace.anware.core.NamNamGame;
 
 public class NamNamTest extends TestCase {
 	private Game game;
-	private static int[] COMPLETE_GAME = new int[] {0, 6, 3, 8, 2, 9, 4, 6, 0, 8};
+	public static int[] COMPLETE_GAME = new int[] {0, 6, 3, 8, 2, 9, 4, 6, 0, 8};
 	
 	protected void setUp() throws Exception {
 		game = new NamNamGame();

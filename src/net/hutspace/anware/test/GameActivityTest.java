@@ -4,6 +4,7 @@ import net.hutspace.anware.Board;
 import net.hutspace.anware.GameActivity;
 import net.hutspace.anware.R;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.widget.TextView;
 
 public class GameActivityTest extends ActivityInstrumentationTestCase2<GameActivity> {
@@ -27,8 +28,35 @@ public class GameActivityTest extends ActivityInstrumentationTestCase2<GameActiv
 	}
 	
 	public void testNewGame() {
-		TextView txtTurn = (TextView) activity.findViewById(R.id.txt_turn);
+		assertToPlayIs("Player 1 to play");
+		play(0);
+		assertToPlayIs("Player 2 to play");
+	}
+
+	// XXX: takes 12 secs to run
+	public void testCompleteGame() {
+		int[] moves = NamNamTest.COMPLETE_GAME;
+		for (int i = 0; i < moves.length; ++i) {
+			final int p0 = i % 2 + 1;
+			assertToPlayIs(p0);
+			play(moves[i]);
+//			final int p1 = (i + 1) % 2 + 1;
+//			assertToPlayIs(p1);
+		}
+		assertToPlayIs("Player 2 has won!!");
+	}
+
+	private void assertToPlayIs(final int lbl) {
+		assertToPlayIs(String.format("Player %s to play", lbl));
+	}
+	
+	private void assertToPlayIs(final String s) {
+		final TextView txtTurn = (TextView) activity.findViewById(R.id.txt_turn);
 		assertNotNull(txtTurn);
-		assertEquals("Player 1 to play", txtTurn.getText().toString());
+		assertEquals(s, txtTurn.getText().toString());
+	}
+	
+	private void play(int i) {
+		TouchUtils.clickView(this, activity.getPit(i));
 	}
 }
