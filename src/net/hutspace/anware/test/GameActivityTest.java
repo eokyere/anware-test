@@ -28,9 +28,9 @@ public class GameActivityTest extends ActivityInstrumentationTestCase2<GameActiv
 	}
 	
 	public void testNewGame() {
-		assertToPlayIs("Player 1 to play");
+		assertInfoIs("Player 1 to play");
 		play(0);
-		assertToPlayIs("Player 2 to play");
+		assertInfoIs("Player 2 to play");
 	}
 
 	// XXX: takes 12 secs to run
@@ -43,20 +43,54 @@ public class GameActivityTest extends ActivityInstrumentationTestCase2<GameActiv
 //			final int p1 = (i + 1) % 2 + 1;
 //			assertToPlayIs(p1);
 		}
-		assertToPlayIs("Player 2 has won!!");
+		assertInfoIs("Player 2 has won!!");
+	}
+	
+	public void testUndo() {
+		final String info = "Player 1 to play";
+		assertInfoIs(info);
+		play(0);
+		undo();
+		assertInfoIs(info);
+	}
+	
+	public void testRedo() {
+		assertInfoIs("Player 1 to play");
+		play(0);
+		undo();
+		redo();
+		assertInfoIs("Player 2 to play");
+	}
+	
+	public void testUndoMoveUndoRedo() {
+		assertInfoIs("Player 1 to play");
+		play(0);
+		undo();
+		play(4);
+		undo();
+		redo();
+		assertInfoIs("Player 2 to play");
 	}
 
 	private void assertToPlayIs(final int lbl) {
-		assertToPlayIs(String.format("Player %s to play", lbl));
+		assertInfoIs(String.format("Player %s to play", lbl));
 	}
 	
-	private void assertToPlayIs(final String s) {
-		final TextView txtTurn = (TextView) activity.findViewById(R.id.txt_turn);
-		assertNotNull(txtTurn);
-		assertEquals(s, txtTurn.getText().toString());
+	private void assertInfoIs(final String s) {
+		final TextView txtInfo = (TextView) activity.findViewById(R.id.txt_turn);
+		assertNotNull(txtInfo);
+		assertEquals(s, txtInfo.getText().toString());
 	}
 	
 	private void play(int i) {
 		TouchUtils.clickView(this, activity.getPit(i));
+	}
+
+	private void undo() {
+		TouchUtils.clickView(this, activity.findViewById(R.id.btn_undo));
+	}
+	
+	private void redo() {
+		TouchUtils.clickView(this, activity.findViewById(R.id.btn_redo));
 	}
 }
