@@ -5,8 +5,7 @@ import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.IllegalMove;
 import net.hutspace.anware.core.NamNamGame;
 
-public class NamNamTest extends TestCase {
-	private Game game;
+public class NamNamTest extends GameTestCase {
 	public static int[] COMPLETE_GAME = new int[] {0, 6, 3, 8, 2, 9, 4, 6, 0, 8};
 	
 	protected void setUp() throws Exception {
@@ -114,20 +113,5 @@ public class NamNamTest extends TestCase {
 		} catch (IllegalMove e) {
 			fail("All moves should be valid");
 		}
-	}
-	
-	private void validatePits(int[] pits) {
-		for (int i = 0; i < pits.length; ++i)
-			assertEquals(pits[i], game.pit(i));
-	}
-	
-	private void validateStores(int[] stores) {
-		for (int i = 0; i < stores.length; ++i)
-			assertEquals(stores[i], game.store(i));
-	}
-
-	private void makeMoves(int[] moves) throws IllegalMove {
-		for (int i = 0; i < moves.length; ++i)
-			game.move(moves[i]);
 	}
 }
