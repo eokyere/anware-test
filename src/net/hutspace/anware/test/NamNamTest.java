@@ -1,6 +1,5 @@
 package net.hutspace.anware.test;
 
-import junit.framework.TestCase;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.IllegalMove;
 import net.hutspace.anware.core.NamNamGame;

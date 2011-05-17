@@ -40,8 +40,6 @@ public class GameActivityTest extends ActivityInstrumentationTestCase2<GameActiv
 			final int p0 = i % 2 + 1;
 			assertToPlayIs(p0);
 			play(moves[i]);
-//			final int p1 = (i + 1) % 2 + 1;
-//			assertToPlayIs(p1);
 		}
 		assertInfoIs("Player 2 has won!!");
 	}

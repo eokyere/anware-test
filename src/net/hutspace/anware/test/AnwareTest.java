@@ -22,6 +22,14 @@ public class AnwareTest extends ActivityInstrumentationTestCase2<Anware> {
 		newGameButton = (Button) activity.findViewById(R.id.new_game_button);
 	}
 	
+    /**
+     * Verifies that the activity under test can be launched.
+     */
+    public void testPreConditions() {
+        assertNotNull("activity should be launched successfully", activity);
+    }
+	
+	
 //	public void testNewGame() throws Throwable {
 //		TouchUtils.clickView(this, newGameButton);
 //	}
